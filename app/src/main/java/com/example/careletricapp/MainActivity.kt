@@ -1,47 +1,42 @@
 package com.example.careletricapp
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.careletricapp.ui.theme.CarEletricAppTheme
 
 class MainActivity : ComponentActivity() {
+    lateinit var preco: EditText
+    lateinit var kmPercorrido: EditText
+    lateinit var btnCalcular: Button
+    lateinit var resultado: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            CarEletricAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+        setupView()
+        setupListeners()
+    }
+
+    fun setupView() {
+        preco = findViewById(R.id.et_preco_kwh)
+        kmPercorrido = findViewById(R.id.et_km_percorrido)
+        resultado = findViewById(R.id.tv_resultado)
+        btnCalcular = findViewById(R.id.btn_calcular)
+    }
+
+    fun setupListeners() {
+        btnCalcular.setOnClickListener {
+            calcular()
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    fun calcular() {
+        val preco = preco.text.toString().toFloat()
+        val km = kmPercorrido.text.toString().toFloat()
+        val result = preco / km
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CarEletricAppTheme {
-        Greeting("Android")
+        resultado.text = result.toString()
     }
 }
