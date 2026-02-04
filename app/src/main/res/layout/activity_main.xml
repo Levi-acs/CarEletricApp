@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="100dp">
 
     <TextView
         android:id="@+id/tv_titulo"
@@ -124,6 +124,7 @@
         android:ems="10"
         android:hint="@string/preco_kwh"
         android:inputType="numberDecimal"
+        android:visibility="invisible"
         android:maxLength="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,6 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:hint="@string/km_percorrido"
+        android:visibility="invisible"
         android:inputType="numberDecimal"
         android:maxLength="10"
         app:layout_constraintEnd_toEndOf="@id/et_preco_kwh"
@@ -142,23 +144,16 @@
         app:layout_constraintTop_toBottomOf="@id/et_preco_kwh" />
 
     <Button
-        android:id="@+id/btn_calcular"
+        android:id="@+id/btn_redirecionar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="@string/calcular"
+        android:text="@string/calcular_autonomia"
         app:layout_constraintEnd_toEndOf="@id/et_km_percorrido"
         app:layout_constraintStart_toStartOf="@id/et_km_percorrido"
         app:layout_constraintTop_toBottomOf="@id/et_km_percorrido" />
 
 
-    <TextView
-        android:id="@+id/tv_resultado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLength="5"
-        app:layout_constraintStart_toStartOf="@id/btn_calcular"
-        app:layout_constraintTop_toBottomOf="@id/btn_calcular" />
 
 
 

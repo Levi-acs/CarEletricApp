@@ -1,35 +1,35 @@
-package com.example.careletricapp
+package com.example.careletricapp.presetantion
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
+import com.example.careletricapp.R
 
-class MainActivity : ComponentActivity() {
+class CalcularAutonomiaActivity : AppCompatActivity() {
+
     lateinit var preco: EditText
-    lateinit var kmPercorrido: EditText
-    lateinit var btnCalcular: Button
     lateinit var resultado: TextView
+    lateinit var kmPercorrido: EditText
+    lateinit var  btnCalcular: Button
+    lateinit var btnClose : ImageView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_calcular_autonomia)
         setupView()
         setupListeners()
     }
 
-    fun setupView() {
+    fun setupView(){
         preco = findViewById(R.id.et_preco_kwh)
         kmPercorrido = findViewById(R.id.et_km_percorrido)
         resultado = findViewById(R.id.tv_resultado)
         btnCalcular = findViewById(R.id.btn_calcular)
-    }
-
-    fun setupListeners() {
-        btnCalcular.setOnClickListener {
-            calcular()
-        }
+        btnClose = findViewById(R.id.iv_close)
     }
 
     fun calcular() {
@@ -39,4 +39,14 @@ class MainActivity : ComponentActivity() {
 
         resultado.text = result.toString()
     }
+
+    fun setupListeners() {
+        btnCalcular.setOnClickListener {
+            calcular()
+        }
+        btnClose.setOnClickListener {
+            finish()
+        }
+    }
+
 }
