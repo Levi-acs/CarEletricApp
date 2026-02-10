@@ -14,7 +14,7 @@
             android:name=".presetantion.MainActivity"
             android:exported="true"
             android:label="EletriCarApp"
-            android:theme="@style/Theme.CarEletricApp">
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
