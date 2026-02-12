@@ -8,14 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.careletricapp.R
+import com.example.careletricapp.data.CarsApi
 import com.example.careletricapp.domain.Carro
 import com.example.careletricapp.presetantion.adapter.CarAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONArray
 import org.json.JSONTokener
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -24,6 +31,8 @@ class CarFragment : Fragment() {
     lateinit var btnCalcular: FloatingActionButton
     lateinit var listInfo: RecyclerView
     lateinit var progress: ProgressBar
+
+    lateinit var carsApi: CarsApi
 
     var carrosList: ArrayList<Carro> = ArrayList()
 
@@ -36,10 +45,10 @@ class CarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRetrofit()
         setupView(view)
         setupListeners()
-        callService()
-
+        getAllCars()
     }
 
     fun setupView(view: View) {
@@ -51,10 +60,11 @@ class CarFragment : Fragment() {
 
     }
 
-    fun setupList() {
-        val carroAdapter = CarAdapter(carrosList)
+
+    fun setupList(list: List<Carro>) {
+        val carroAdapter = CarAdapter(list)
         listInfo.apply {
-           visibility = View.VISIBLE
+            visibility = View.VISIBLE
             adapter = carroAdapter
         }
     }
@@ -63,6 +73,36 @@ class CarFragment : Fragment() {
         btnCalcular.setOnClickListener {
             startActivity(Intent(context, CalcularAutonomiaActivity::class.java))
         }
+    }
+
+    fun setupRetrofit() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://igorbag.github.io/cars-api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+
+        carsApi = retrofit.create(CarsApi::class.java)
+    }
+
+    fun getAllCars() {
+        carsApi.getAllCars().enqueue(object : Callback<List<Carro>> {
+            override fun onResponse(call: Call<List<Carro>>, response: Response<List<Carro>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        setupList(it)
+
+                    }
+                } else {
+                    Toast.makeText(context, "Erro na conexão ", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Carro>>, t: Throwable) {
+                Toast.makeText(context, "Erro na conexão ", Toast.LENGTH_LONG).show()
+            }
+
+        })
     }
 
     fun callService() {
@@ -96,7 +136,7 @@ class CarFragment : Fragment() {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     var response = urlConnection.inputStream.bufferedReader().readText()
                     publishProgress(response)
-                }else{
+                } else {
                     Log.e("Erro", "Serviço Indisponivel no momento...")
 
                 }
@@ -142,7 +182,7 @@ class CarFragment : Fragment() {
                     carrosList.add(model)
                 }
                 progress.visibility = View.GONE
-                setupList()
+              //  setupList()
             } catch (ex: Exception) {
                 Log.e("Erro ->", ex.message.toString())
             }
