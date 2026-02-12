@@ -11,7 +11,8 @@ object CarFactory {
             bateria = "100Kwh",
             potencia = "200 cv",
             recarga = "30 min",
-            urlFoto = "www.google.com.br"
+            urlFoto = "www.google.com.br",
+            isFavorito = false
         )
     )
 }

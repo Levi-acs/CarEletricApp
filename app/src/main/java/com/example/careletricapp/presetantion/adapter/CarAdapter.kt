@@ -3,12 +3,15 @@ package com.example.careletricapp.presetantion.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.careletricapp.R
 import com.example.careletricapp.domain.Carro
 
 class CarAdapter(private val carros: List<Carro>) : RecyclerView.Adapter<CarAdapter.ViewHolder>() {
+
+    var carItemLister: (Carro) -> Unit = {}
 
     // criando uma nova view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,6 +25,16 @@ class CarAdapter(private val carros: List<Carro>) : RecyclerView.Adapter<CarAdap
         holder.bateria.text = carros[position].bateria
         holder.potencia.text = carros[position].potencia
         holder.recarga.text = carros[position].recarga
+        holder.favorito.setOnClickListener {
+            val carro = carros[position]
+            carItemLister(carro)
+            carro.isFavorito = !carro.isFavorito
+
+            if (carro.isFavorito)
+                holder.favorito.setImageResource(R.drawable.ic_star_selected)
+            else
+                holder.favorito.setImageResource(R.drawable.ic_star)
+        }
     }
 
     // pegando quantidade de carros da lista
@@ -33,6 +46,7 @@ class CarAdapter(private val carros: List<Carro>) : RecyclerView.Adapter<CarAdap
         val bateria: TextView
         val potencia: TextView
         val recarga: TextView
+        val favorito : ImageView
 
         init {
             view.apply {
@@ -40,6 +54,7 @@ class CarAdapter(private val carros: List<Carro>) : RecyclerView.Adapter<CarAdap
                 bateria = findViewById(R.id.tv_bateria_value)
                 potencia = findViewById(R.id.tv_potencia_value)
                 recarga = findViewById(R.id.tv_recarga_value)
+                favorito = findViewById(R.id.iv_favorito)
             }
         }
     }
