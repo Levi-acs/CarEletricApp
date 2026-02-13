@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.careletricapp.R
 import com.example.careletricapp.data.CarsApi
 import com.example.careletricapp.domain.Carro
+import com.example.careletricapp.local.CarRepository
 import com.example.careletricapp.presetantion.adapter.CarAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
@@ -61,6 +62,11 @@ class CarFragment : Fragment() {
             visibility = View.VISIBLE
             adapter = carroAdapter
         }
+        carroAdapter.carItemLister = { carro ->
+            val isSaved = CarRepository(requireContext()).findCarById(carro.id)
+
+
+        }
     }
 
     fun setupListeners() {
@@ -70,10 +76,8 @@ class CarFragment : Fragment() {
     }
 
     fun setupRetrofit() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://igorbag.github.io/cars-api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val retrofit = Retrofit.Builder().baseUrl("https://igorbag.github.io/cars-api/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
 
 
         carsApi = retrofit.create(CarsApi::class.java)
