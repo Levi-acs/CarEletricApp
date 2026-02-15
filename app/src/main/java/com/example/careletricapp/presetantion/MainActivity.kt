@@ -1,14 +1,9 @@
 package com.example.careletricapp.presetantion
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.careletricapp.R
-import com.example.careletricapp.data.CarFactory
-import com.example.careletricapp.presetantion.adapter.CarAdapter
 import com.example.careletricapp.presetantion.adapter.TabAdapter
 import com.google.android.material.tabs.TabLayout
 
